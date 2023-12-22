@@ -42,7 +42,7 @@ public class BoardManager : MonoBehaviour
 
     void Start()
     {
-        isTimed = (PlayerPrefs.GetInt("Timed", 1) == 1) ? true : false;
+        isTimed = (PlayerPrefs.GetInt("Timed", 0) == 1) ? true : false;
         if(isTimed) timer.gameObject.SetActive(true);
         PlaceTiles();
         PopulateBoard();
@@ -163,19 +163,11 @@ public class BoardManager : MonoBehaviour
         }
 
         // Check if game is over
-        {
-            List<int> numbers = new List<int>();
-            foreach(GameObject tile in tiles) {
-                numbers.Add(tile.GetComponent<TileScript>().GetNumber());
-            }
-            if(!CheckValidity(numbers)) {
-                TriggerGameOver();
-            }
-        }
 
         if (tileLength == 0) {
             TriggerGameOver();
         } else {
+            tiles = GameObject.FindGameObjectsWithTag("Tile");
             List<int> numbers = new List<int>();
             foreach(GameObject tile in tiles) {
                 numbers.Add(tile.GetComponent<TileScript>().GetNumber());
