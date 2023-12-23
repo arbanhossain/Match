@@ -8,7 +8,6 @@ public class TileScript : MonoBehaviour
     [SerializeField] private Color clickedColor;
     private Color initialColor;
 
-    private int i = 0;
     [HideInInspector] public bool selected = false;
     private BoardManager boardManager;
     // Start is called before the first frame update
@@ -21,7 +20,7 @@ public class TileScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnMouseDown() {

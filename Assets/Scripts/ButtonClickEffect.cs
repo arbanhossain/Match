@@ -28,6 +28,7 @@ public class ButtonClickEffect : MonoBehaviour
     private void OnMouseDown() {
         // Debug.Log("Mouse Down Called");
         if (!pressed) {
+            GetComponent<AudioSource>().Play(0);
             StartCoroutine(ChangeColorOnClick());
         }
     }

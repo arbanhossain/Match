@@ -42,7 +42,7 @@ public class BoardManager : MonoBehaviour
 
     void Start()
     {
-        isTimed = (PlayerPrefs.GetInt("Timed", 0) == 1) ? true : false;
+        isTimed = (PlayerPrefs.GetInt("Timer", 0) == 1) ? true : false;
         if(isTimed) timer.gameObject.SetActive(true);
         PlaceTiles();
         PopulateBoard();
@@ -53,6 +53,7 @@ public class BoardManager : MonoBehaviour
     void FixedUpdate()
     {
         if (a != 0 && b != 0) CheckPair();
+        CheckForcedEnd();
     }
 
     private void PopulateBoard() {
@@ -76,7 +77,7 @@ public class BoardManager : MonoBehaviour
                 pairNum = GetPair(num, sign, target);
             } while (pairNum < 0 || numbers.Contains(num));
             
-            if (pairNum == 0 || Random.Range(0f, 1f) > 0.7f) {
+            if (pairNum == 0 || Random.Range(0f, 1f) > 0.92f) {
                 pairNum = GetRandomNumber(
                     Mathf.Max(1, target - (difficulty * difficultyMargin)), 
                     target + (difficulty * difficultyMargin)
@@ -152,6 +153,7 @@ public class BoardManager : MonoBehaviour
             plusOneAnimationTimeline.Play();
             UpdateScoreText();
             tileLength -= 2;
+            CheckForcedEnd();
         } else {
             scoreText.GetComponent<PlayableDirector>().Play();
             // not correct
@@ -162,19 +164,23 @@ public class BoardManager : MonoBehaviour
             b = 0;
         }
 
+        CheckForcedEnd();
+
         // Check if game is over
 
         if (tileLength == 0) {
             TriggerGameOver();
-        } else {
-            tiles = GameObject.FindGameObjectsWithTag("Tile");
-            List<int> numbers = new List<int>();
-            foreach(GameObject tile in tiles) {
-                numbers.Add(tile.GetComponent<TileScript>().GetNumber());
-            }
-            if(!CheckValidity(numbers)) {
-                TriggerGameOver();
-            }
+        }
+    }
+
+    private void CheckForcedEnd() {
+        GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
+        List<int> numbers = new List<int>();
+        foreach(GameObject tile in tiles) {
+            numbers.Add(tile.GetComponent<TileScript>().GetNumber());
+        }
+        if(!CheckValidity(numbers)) {
+            TriggerGameOver();
         }
     }
 
