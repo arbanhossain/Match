@@ -9,19 +9,21 @@ public class Timer : MonoBehaviour
     private float current = 0f;
     private Image Fill;
     public BoardManager boardManager;
-    // Start is called before the first frame update
+
     void Start()
     {
         // duration = (float)(PlayerPrefs.GetInt("Timer Duration", 60));
         Fill = GetComponent<Image>();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // update the timer's visual state
+
         current += Time.deltaTime;
         Fill.fillAmount = current / duration;
 
+        // if timer runs out, end the round
         if (current > duration) {
             boardManager.TriggerGameOver();
         }

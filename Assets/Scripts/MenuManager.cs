@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // Check if sound is selected or not in settings and then apply that game-wide
     void Start()
     {
         bool soundState = (PlayerPrefs.GetInt("Sound", 1) == 1) ? true : false;

@@ -24,7 +24,7 @@ public class TileScript : MonoBehaviour
     }
 
     private void OnMouseDown() {
-        // Debug.Log($"Clicked {i++}, Number is {GetNumber()}");
+        // On click, toggle between selected and deselected
         ToggleState();
     }
 
@@ -32,6 +32,7 @@ public class TileScript : MonoBehaviour
         GetComponent<SpriteRenderer>().color = (selected) ? initialColor : clickedColor;
         selected = !selected;
 
+        // If we have selected the number, queue it in the board's memory, otherwise dequeue the number from memory
         if (!selected) {
             boardManager.DequeueNumber(GetNumber());
         } else {
@@ -40,15 +41,18 @@ public class TileScript : MonoBehaviour
     }
 
     public void ResetState() {
+        // Reset in case of a wrong answer
         GetComponent<SpriteRenderer>().color = initialColor;
         selected = false;
     }
 
+    // Get the number associated with the tile
     public int GetNumber() {
         GameObject numberObject = transform.Find("Number").gameObject;
         return System.Convert.ToInt32(numberObject.GetComponent<TextMesh>().text);
     }
 
+    // Set the number in the associated text of tile.
     public void SetNumber(int num) {
         GameObject numberObject = transform.Find("Number").gameObject;
         numberObject.GetComponent<TextMesh>().text = System.Convert.ToString(num);

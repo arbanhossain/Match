@@ -8,7 +8,7 @@ public class SettingsManager : MonoBehaviour
     public Toggle soundToggle;
     public Toggle timerToggle;
 
-    // Start is called before the first frame update
+    // At start check the settings from previous runs, and re-apply them
     void Start()
     {
         bool soundState = (PlayerPrefs.GetInt("Sound", 1) == 1) ? true : false;
@@ -27,8 +27,8 @@ public class SettingsManager : MonoBehaviour
 
     public void ToggleSound() {
         Debug.Log("Changed Sound");
-        PlayerPrefs.SetInt("Sound", 1 - PlayerPrefs.GetInt("Sound", 1));
-        AudioListener.volume = (1.0f - AudioListener.volume);
+        PlayerPrefs.SetInt("Sound", 1 - PlayerPrefs.GetInt("Sound", 1)); // Toggle the variable in PlayerPrefs
+        AudioListener.volume = (1.0f - AudioListener.volume); // Toggle game-wide volume
         // soundToggle.isOn = !soundToggle.isOn;
     }
     public void ToggleTimer() {

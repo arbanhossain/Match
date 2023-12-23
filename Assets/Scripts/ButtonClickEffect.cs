@@ -27,20 +27,21 @@ public class ButtonClickEffect : MonoBehaviour
 
     private void OnMouseDown() {
         // Debug.Log("Mouse Down Called");
-        if (!pressed) {
-            GetComponent<AudioSource>().Play(0);
-            StartCoroutine(ChangeColorOnClick());
+        if (!pressed) { // Don't register if the button is already pressed down
+            GetComponent<AudioSource>().Play(0); // Play the click audio
+            StartCoroutine(ChangeColorOnClick()); // change the color for a pressed down effect
         }
     }
 
     IEnumerator ChangeColorOnClick() {
-        // Debug.Log("Changing");
+        // Start a Coroutine for changing the color for a fixed duration (0.5s default)
         pressed = true;
         GetComponent<SpriteRenderer>().color = clickedColor;
         yield return new WaitForSeconds(duration);
         GetComponent<SpriteRenderer>().color = initialColor;
         pressed = false;
-        GoToScene(sceneToGoTo);
+
+        GoToScene(sceneToGoTo); // Go to the scene it was assigned to
     }
 
     public void GoToScene(string sceneName) {
